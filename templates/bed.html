@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Beds</title>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light sky blue background */
+            font-family: Arial, sans-serif;
+            color: #333; /* Dark text color */
+        }
+
+        h1 {
+            color: #1e90ff; /* Dodger blue heading color */
+        }
+
+        p {
+            color: #4169e1; /* Royal blue paragraph color */
+            margin-bottom: 10px;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #87ceeb; /* Sky blue border */
+            border-radius: 5px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #b0e0e6; /* Powder blue form background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4169e1; /* Royal blue label color */
+        }
+
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #87ceeb; /* Sky blue border */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #1e90ff; /* Dodger blue button background */
+            color: #fff; /* White button text color */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6495ed; /* Lighter dodger blue on hover */
+        }
+
+        #successMessage {
+            display: none;
+            color: #008000; /* Green success message color */
+            background-color: #e0ffe0; /* Light green background */
+            padding: 10px;
+            border: 1px solid #008000; /* Green border */
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Available Beds</h1>
+    <p>Hospital: {{ hospital_id }}</p>
+    <p>Bed Type: {{ bed_type }}</p>
+    <p>Available Beds: {{ available_beds }}</p>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-info">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <form id="admitForm" action="/admit" method="post">
+        <input type="hidden" name="hospital" value="{{ hospital_id }}">
+        <input type="hidden" name="bed_type" value="{{ bed_type }}">
+        <label for="severity">Severity:</label>
+        <select name="severity" id="severity" required>
+            <option value="Critical">Critical</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Stable">Stable</option>
+        </select>
+        <br>
+        <label for="patient_name">Patient Name:</label>
+        <input type="text" name="patient_name" id="patient_name" required>
+        <br>
+        <label for="contact_number">Contact Number:</label>
+        <input type="text" name="contact_number" id="contact_number" required>
+        <br>
+        <button id="admitButton">Admit Request</button>
+    </form>
+    
+    <div id="successMessage" class="alert alert-success" style="display: none;"></div>
+
+    <script>
+        document.getElementById('admitButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            submitAdmitRequest();
+        });
+
+        function submitAdmitRequest() {
+            var form = document.getElementById('admitForm');
+            var severity = document.getElementById('severity').value;
+            var patientName = document.getElementById('patient_name').value;
+            var contactNumber = document.getElementById('contact_number').value;
+
+            var hiddenSeverity = document.createElement('input');
+            hiddenSeverity.type = 'hidden';
+            hiddenSeverity.name = 'severity';
+            hiddenSeverity.value = severity;
+
+            var hiddenPatientName = document.createElement('input');
+            hiddenPatientName.type = 'hidden';
+            hiddenPatientName.name = 'patient_name';
+            hiddenPatientName.value = patientName;
+
+            var hiddenContactNumber = document.createElement('input');
+            hiddenContactNumber.type = 'hidden';
+            hiddenContactNumber.name = 'contact_number';
+            hiddenContactNumber.value = contactNumber;
+
+            form.appendChild(hiddenSeverity);
+            form.appendChild(hiddenPatientName);
+            form.appendChild(hiddenContactNumber);
+
+            // Submit the form using Fetch API to handle the response
+            fetch('/admit', {
+                method: 'POST',
+                body: new FormData(form),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the response message on the page
+                var successMessage = document.getElementById('successMessage');
+                successMessage.textContent = `Your admission request has been accepted in ${data.hospital} for ${data.bed_type} bed.`;
+                successMessage.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

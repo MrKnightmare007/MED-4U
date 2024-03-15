@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Hospital</title>
+</head>
+<body>
+    <h1>Select Hospital</h1>
+    <form action="/bed" method="post">
+        <label for="hospital">Select a Hospital:</label>
+        <select name="hospital" id="hospital">
+            {% for hospital in hospitals %}
+                <option value="{{ hospital }}">{{ hospital }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="bed_type">Select Bed Type:</label>
+        <select name="bed_type" id="bed_type">
+            <option value="ICU">ICU</option>
+            <option value="General">General</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Orthopaedic">Orthopaedic</option>
+            <option value="Special">Special</option>
+            <option value="Maternity">Maternity</option>
+        </select>
+        <br>
+        <input type="submit" value="Show Available Beds">
+    </form>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointment Booking</title>
+    <!-- Include any CSS stylesheets or other necessary resources here -->
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Doctor Appointment Booking</h1>
+
+        <h2>Book an Appointment</h2>
+        <form method="POST" action="/book_appointment">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" required><br>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br>
+            <label for="location">Location:</label>
+            <select id="location" name="location" required>
+                <option value="">Select Location</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Chennai">Chennai</option>
+                <!-- Add more cities as needed -->
+            </select><br><br>
+            <label for="doctor_type">Doctor Type:</label>
+            <select id="doctor_type" name="doctor_type" required>
+                <option value="">Select Doctor Type</option>
+                <option value="Dentist">Dentist</option>
+                <option value="Cardiologist">Cardiologist</option>
+                <option value="Dermatologist">Dermatologist</option>
+                <option value="Orthopedic">Orthopedic</option>
+                <!-- Add more doctor types as needed -->
+            </select><br><br>
+            <label for="doctor">Doctor:</label>
+            <select id="doctor" name="doctor" required>
+                <!-- Options for doctors will be dynamically added using JavaScript -->
+            </select><br><br>
+            <input type="submit" value="Book Appointment">
+        </form>
+    </div>
+
+    <!-- Include any JavaScript files or scripts here -->
+    <script>
+        // JavaScript code to dynamically populate doctors based on selected doctor type
+        const doctorTypeSelect = document.getElementById('doctor_type');
+        const doctorSelect = document.getElementById('doctor');
+
+        const doctors = {
+            Dentist: ['Dr. Smith', 'Dr. Johnson', 'Dr. Williams'],
+            Cardiologist: ['Dr. Brown', 'Dr. Davis', 'Dr. Miller'],
+            Dermatologist: ['Dr. Wilson', 'Dr. Moore', 'Dr. Taylor'],
+            Orthopedic: ['Dr. Anderson', 'Dr. Thomas', 'Dr. Jackson']
+            // Add more doctors as needed
+        };
+
+        doctorTypeSelect.addEventListener('change', (event) => {
+            const selectedDoctorType = event.target.value;
+            doctorSelect.innerHTML = ''; // Clear previous options
+
+            // Add options for selected doctor type
+            if (selectedDoctorType in doctors) {
+                doctors[selectedDoctorType].forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.text = doctor;
+                    doctorSelect.add(option);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

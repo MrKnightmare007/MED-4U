@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liver Disease Prediction</title>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light sky blue background */
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #1e90ff; /* Dodger blue text color */
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #b0e0e6; /* Powder blue form background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4169e1; /* Royal blue label color */
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #87ceeb; /* Sky blue border */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #1e90ff; /* Dodger blue button background */
+            color: #fff; /* White button text color */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6495ed; /* Lighter dodger blue on hover */
+        }
+
+        h2 {
+            color: #1e90ff; /* Dodger blue heading color */
+        }
+
+        p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liver Disease Prediction</h1>
+
+    <form method="post" action="/predict">
+        <!-- Update the name attributes based on your features -->
+
+        <label for="Age">Age:</label>
+        <input type="text" name="Age" required><br>
+
+        <label for="Gender">Gender (Male/Female):</label>
+        <input type="text" name="Gender" required><br>
+
+        <label for="Total_Bilirubin">Total Bilirubin:</label>
+        <input type="text" name="Total_Bilirubin" required><br>
+
+        <label for="Direct_Bilirubin">Direct Bilirubin:</label>
+        <input type="text" name="Direct_Bilirubin" required><br>
+
+        <label for="Alkaline_Phosphotase">Alkaline Phosphotase:</label>
+        <input type="text" name="Alkaline_Phosphotase" required><br>
+
+        <label for="Alamine_Aminotransferase">Alamine Aminotransferase:</label>
+        <input type="text" name="Alamine_Aminotransferase" required><br>
+
+        <label for="Aspartate_Aminotransferase">Aspartate Aminotransferase:</label>
+        <input type="text" name="Aspartate_Aminotransferase" required><br>
+
+        <label for="Total_Protiens">Total Proteins:</label>
+        <input type="text" name="Total_Protiens" required><br>
+
+        <label for="Albumin">Albumin:</label>
+        <input type="text" name="Albumin" required><br>
+
+        <label for="Albumin_and_Globulin_Ratio">Albumin and Globulin Ratio:</label>
+        <input type="text" name="Albumin_and_Globulin_Ratio" required><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction is defined %}
+        <h2>Prediction Result:</h2>
+        <p>{{ prediction }}</p>
+    {% endif %}
+
+    {% if error_message is defined %}
+        <h2>Error:</h2>
+        <p>{{ error_message }}</p>
+    {% endif %}
+</body>
+</html>

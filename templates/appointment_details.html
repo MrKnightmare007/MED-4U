@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        .user-input {
+            color: blue; /* Change color to blue */
+        }
+        .appointment-details {
+            margin-top: 20px;
+        }
+        .appointment-details p {
+            font-weight: bold;
+        }
+        .special-id {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 20px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Appointment Details</h1>
+        <div class="appointment-details">
+            <p><strong>Date:</strong> <span class="user-input">{{ appointment.date }}</span></p>
+            <p><strong>Doctor Type:</strong> <span class="user-input">{{ appointment.doctor_type }}</span></p>
+            <p><strong>Location:</strong> <span class="user-input">{{ appointment.location }}</span></p>
+            <p><strong>Doctor:</strong> <span class="user-input">{{ appointment.doctor }}</span></p>
+            <!-- Add more appointment details as needed -->
+        </div>
+        <div class="special-id">
+            <p>Your Special ID: <strong>{{ appointment_id }}</strong></p>
+        </div>
+    </div>
+</body>
+</html>

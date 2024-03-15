@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teeth Disease Prediction</title>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light sky blue background */
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #1e90ff; /* Dodger blue text color */
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #b0e0e6; /* Powder blue form background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4169e1; /* Royal blue label color */
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #87ceeb; /* Sky blue border */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #1e90ff; /* Dodger blue button background */
+            color: #fff; /* White button text color */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6495ed; /* Lighter dodger blue on hover */
+        }
+
+        p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teeth Disease Prediction</h1>
+    <form action="/predict4" method="post" enctype="multipart/form-data">
+        <label for="file">Upload Image:</label>
+        <input type="file" id="file" name="file" accept=".png, .jpg, .jpeg" required>
+        <br>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if result %}
+        <p>{{ result }}</p>
+    {% endif %}
+</body>
+</html>

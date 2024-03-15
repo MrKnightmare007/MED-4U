@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detection</title>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light sky blue background */
+            font-family: Arial, sans-serif;
+            color: #333; /* Dark text color */
+        }
+
+        h1 {
+            color: #1e90ff; /* Dodger blue heading color */
+        }
+
+        h2 {
+            color: #1e90ff; /* Dodger blue sub-heading color */
+        }
+
+        video {
+            border: 1px solid #87ceeb; /* Sky blue border */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #1e90ff; /* Dodger blue result heading color */
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #1e90ff; /* Dodger blue label color */
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #87ceeb; /* Sky blue border */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #1e90ff; /* Dodger blue button background */
+            color: #fff; /* White button text color */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6495ed; /* Lighter dodger blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Emotion Detection</h1>
+
+    <h2>Emotion from Webcam:</h2>
+    <div>
+        <video id="webcam" autoplay playsinline width="640" height="480"></video>
+    </div>
+
+    <h3 id="emotionResult"></h3>
+
+    <label for="userPrompt">Enter your prompt:</label>
+    <input type="text" id="userPrompt" placeholder="Type your prompt here">
+
+    <button onclick="detectEmotion()">Submit Prompt</button>
+
+    <h3 id="chatbotResponse"></h3>
+
+    <script>
+        const video = document.getElementById('webcam');
+        const emotionResult = document.getElementById('emotionResult');
+        const userPromptInput = document.getElementById('userPrompt');
+        const chatbotResponse = document.getElementById('chatbotResponse');
+    
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error('Error accessing webcam:', error);
+            });
+    
+        function detectEmotion() {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = video.width;
+            canvas.height = video.height;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+            // Convert the canvas image to a Blob
+            canvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append('image', blob, 'webcam_image.jpeg');
+                formData.append('userPrompt', userPromptInput.value);
+    
+                fetch('/', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.emotion) {
+                        //emotionResult.textContent = `Detected Emotion: ${data.emotion}`;
+                        chatbotResponse.textContent = `Chatbot Response: ${data.chatbot_response}`;
+                    } else {
+                        console.error('Error detecting emotion:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error detecting emotion:', error);
+                });
+            }, 'image/jpeg');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Auth0 Example</title>
+    <style>
+      body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f8f8f8; /* Light gray background */
+          text-align: center;
+          margin: 0;
+          padding: 20px;
+      }
+
+      h1 {
+          color: #1e90ff; /* Dodger blue heading color */
+      }
+
+      p {
+          color: #333; /* Dark text color */
+      }
+
+      a {
+          text-decoration: none;
+          color: #1e90ff; /* Dodger blue link color */
+          font-weight: bold;
+      }
+
+      a:hover {
+          color: #6495ed; /* Lighter dodger blue on hover */
+      }
+
+      #profileDropDown {
+          margin-top: 50px;
+          font-size: 24px;
+      }
+
+      #qsLogoutBtn,
+      #qsLoginBtn {
+          display: inline-block;
+          padding: 10px 20px;
+          margin-top: 20px;
+          background-color: #1e90ff; /* Dodger blue button background */
+          color: #fff; /* White button text color */
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          text-align: center;
+          font-size: 16px;
+      }
+
+      #qsLogoutBtn:hover,
+      #qsLoginBtn:hover {
+          background-color: #6495ed; /* Lighter dodger blue on hover */
+      }
+
+      div {
+          background-color: #fff; /* White background for the content */
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          margin-top: 20px;
+          text-align: left;
+          overflow: auto;
+      }
+  </style>
+  </head>
+  <body>
+    {% if session %}
+    <h1>Welcome {{session.userinfo.name}}!</h1>
+    <p><a href="/logout1" id="qsLogoutBtn">Logout</a></p>
+    <div><pre>{{pretty}}</pre></div>
+    {% else %}
+    <h1 id="profileDropDown">Welcome Guest</h1>
+    <p><a href="/login1" id="qsLoginBtn">Login</a></p>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Risk Prediction</title>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light sky blue background */
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #1e90ff; /* Dodger blue text color */
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #b0e0e6; /* Powder blue form background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4169e1; /* Royal blue label color */
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #87ceeb; /* Sky blue border */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #1e90ff; /* Dodger blue button background */
+            color: #fff; /* White button text color */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6495ed; /* Lighter dodger blue on hover */
+        }
+
+        h2 {
+            color: #1e90ff; /* Dodger blue heading color */
+        }
+
+        h3 {
+            color: #1e90ff; /* Dodger blue heading color for preventive measures and dietary plan */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diabetes Risk Prediction</h1>
+    
+    <form method="post" action="/diabetes">
+        <label for="Pregnancies">Pregnancies:</label>
+        <input type="text" name="Pregnancies" required><br>
+        <label for="Glucose">Glucose:</label>
+        <input type="text" name="Glucose" required><br>
+        <label for="BloodPressure">BloodPressure:</label>
+        <input type="text" name="BloodPressure" required><br>
+        <label for="SkinThickness">SkinThickness:</label>
+        <input type="text" name="SkinThickness" required><br>
+        <label for="Insulin">Insulin:</label>
+        <input type="text" name="Insulin" required><br>
+        <label for="BMI">BMI:</label>
+        <input type="text" name="BMI" required><br>
+        <label for="DiabetesPedigreeFunction">DiabetesPedigreeFunction:</label>
+        <input type="text" name="DiabetesPedigreeFunction" required><br>
+        <label for="Age">Age:</label>
+        <input type="text" name="Age" required><br>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if result %}
+        <h2>{{ result }}</h2>
+        {% if preventive_measures and dietary_plan %}
+            <h3>Preventive Measures:</h3>
+            <ul>
+                {% for measure in preventive_measures %}
+                    <li>{{ measure }}</li>
+                {% endfor %}
+            </ul>
+            
+            <h3>Dietary Plan:</h3>
+            <ul>
+                {% for plan in dietary_plan %}
+                    <li>{{ plan }}</li>
+                {% endfor %}
+                **Remember, these recommendations are general guidelines and may not be suitable for everyone. Always consult your doctor or a registered dietitian for personalized advice and monitoring of your health.**
+            </ul>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Payment Gateway</title>
+
+    <!-- Include MetaMask script -->
+    <script src="https://cdn.jsdelivr.net/npm/@metamask/dapp"></script>
+</head>
+<body>
+
+<h1>Cryptocurrency Payment Gateway</h1>
+
+<form>
+    <label for="paymentAmount">Payment Amount (ETH): </label>
+    <input type="text" id="paymentAmount" name="paymentAmount" value="10">
+    <button type="button" onclick="generatePaymentAddress()">Generate Payment Address</button>
+</form>
+
+<div id="paymentAddressInfo" style="display: none;">
+    <p>Payment Address: <span id="paymentAddress"></span></p>
+    <p>Valid Until: <span id="validUntil"></span></p>
+</div>
+
+<hr>
+
+<form>
+    <label for="checkPaymentAddress">Check Payment Status</label>
+    <input type="text" id="checkPaymentAddress" name="checkPaymentAddress" placeholder="Enter Payment Address">
+    <button type="button" onclick="checkPaymentStatus()">Check Payment Status</button>
+</form>
+
+<div id="paymentStatusInfo" style="display: none;">
+    <p>Status: <span id="paymentStatus"></span></p>
+    <p>Balance: <span id="paymentBalance"></span> ETH</p>
+</div>
+
+<script>
+    async function generatePaymentAddress() {
+        const paymentAmount = document.getElementById('paymentAmount').value;
+
+        try {
+            const response = await fetch('/generate_payment_address', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: paymentAmount }),
+            });
+
+            const result = await response.json();
+
+            if (result.error) {
+                console.error('Error generating payment address:', result.error);
+            } else {
+                document.getElementById('paymentAddress').textContent = result.payment_address;
+                const validUntil = new Date(result.valid_until * 1000).toLocaleString();
+                document.getElementById('validUntil').textContent = validUntil;
+
+                document.getElementById('paymentAddressInfo').style.display = 'block';
+
+                // Add MetaMask payment button
+                const metaMaskButton = document.createElement('button');
+                metaMaskButton.textContent = 'Pay with MetaMask';
+                metaMaskButton.onclick = () => payWithMetaMask(result.payment_address, result.amount);
+                document.body.appendChild(metaMaskButton);
+            }
+        } catch (error) {
+            console.error('Error generating payment address:', error);
+        }
+    }
+
+    async function payWithMetaMask(paymentAddress, amount) {
+        try {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const from = accounts[0];
+
+            const transactionParameters = {
+                from: from,
+                to: paymentAddress,
+                value: amount,
+            };
+
+            // Send transaction to MetaMask
+            const result = await ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [transactionParameters],
+            });
+
+            console.log('Transaction sent:', result);
+        } catch (error) {
+            console.error('MetaMask transaction error:', error);
+        }
+    }
+</script>
+
+</body>
+</html>
